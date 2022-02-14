@@ -1,25 +1,11 @@
-version: "3.7"
-
+version: '3.7'
 services:
-  db:
-    image: postgres:13.3
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=rub2b_db
-      - POSTGRES_USER=rub2badmin
-      - POSTGRES_PASSWORD=Gremushka27112007
-
   web:
-    build: .
+    build: ./rub2b_dev
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/rub2b
+      - ./rub2b_dev:/usr/src/rub2b_dev/
     ports:
-      - "8000:8000"
-    environment:
-      - POSTGRES_DB=rub2b_db
-      - POSTGRES_USER=rub2badmin
-      - POSTGRES_PASSWORD=Gremushka27112007
-    depends_on:
-      - db
+      - 8000:8000
+    env_file:
+      - ./.env.dev
