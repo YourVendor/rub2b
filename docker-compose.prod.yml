@@ -1,14 +1,15 @@
 version: '3.7'
+
 services:
   web:
-    build: ./rub2b_dev
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./rub2b_dev:/usr/src/rub2b_dev/
+    build:
+      context: ./rub2b_dev
+      dockerfile: Dockerfile.prod
+    command: gunicorn rub2b_server.wsgi:application --bind 0.0.0.0:8000
     ports:
       - 8000:8000
     env_file:
-      - ./.env.dev
+      - ./.env.prod
     depends_on:
       - db
     networks:
@@ -17,10 +18,8 @@ services:
     image: postgres:13.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=rub2badmin
-      - POSTGRES_PASSWORD=Gremushka27112007
-      - POSTGRES_DB=rub2b_db
+    env_file:
+      - ./.env.prod.db
     networks:
       - rub2b
 
