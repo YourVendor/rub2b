@@ -6,8 +6,11 @@ services:
       context: ./rub2b_dev
       dockerfile: Dockerfile.prod
     command: gunicorn rub2b_server.wsgi:application --bind 0.0.0.0:8000
-    ports:
-      - 8000:8000
+    volumes:
+      - static_volume:/home/rub2b_dev/web/staticfiles
+      - media_volume:/home/rub2b_dev/web/mediafiles
+    expose:
+      - 8000
     env_file:
       - ./.env.prod
     depends_on:
@@ -22,9 +25,22 @@ services:
       - ./.env.prod.db
     networks:
       - rub2b
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/rub2b_dev/web/staticfiles
+      - media_volume:/home/rub2b_dev/web/mediafiles
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+    networks:
+      - rub2b
 
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
 
 networks:
   rub2b:
