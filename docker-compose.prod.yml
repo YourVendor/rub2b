@@ -31,7 +31,7 @@ services:
       - static_volume:/home/rub2b_dev/web/staticfiles
       - media_volume:/home/rub2b_dev/web/mediafiles
     ports:
-      - 1337:80
+      - 80:80
     depends_on:
       - web
     networks:
