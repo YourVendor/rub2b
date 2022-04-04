@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'graphene_django',
     'upload',
 ]
 
@@ -106,6 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+GRAPHENE = {
+    "SCHEMA": "django_root.schema.schema"
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
